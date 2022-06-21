@@ -49,10 +49,13 @@ async function run(): Promise<undefined> {
       pullRequestNumber,
       header
     )
+    if (previous) core.info("Found previous comment")
+    else core.info("Did not find previous comment")
 
     if (deleteOldComment) {
       if (previous) {
         await deleteComment(octokit, previous.id)
+        core.info("Deleted comment")
       }
       return
     }
@@ -60,18 +63,21 @@ async function run(): Promise<undefined> {
     if (hideOldComment) {
       if (previous) {
         await minimizeComment(octokit, previous.id, hideClassify)
+        core.info("Hid comment")
       }
       return
     }
 
     if (!previous) {
       await createComment(octokit, repo, pullRequestNumber, body, header)
+      core.info("Created comment")
       return
     }
 
     const previousBody = getBodyOf(previous, append, hideDetails)
     if (recreate) {
       await deleteComment(octokit, previous.id)
+      core.info("Deleted comment")
       await createComment(
         octokit,
         repo,
@@ -80,16 +86,20 @@ async function run(): Promise<undefined> {
         header,
         previousBody
       )
+      core.info("Created comment")
       return
     }
 
     if (hideAndRecreate) {
       await minimizeComment(octokit, previous.id, hideClassify)
+      core.info("Hid comment")
       await createComment(octokit, repo, pullRequestNumber, body, header)
+      core.info("Created comment")
       return
     }
 
     await updateComment(octokit, previous.id, body, header, previousBody)
+    core.info("Updated comment")
   } catch (error) {
     if (error instanceof Error) {
       core.setFailed(error.message)
