@@ -57,13 +57,15 @@ async function run(): Promise<undefined> {
       return
     }
 
-    if (!previous) {
-      await createComment(octokit, repo, pullRequestNumber, body, header)
+    if (hideOldComment) {
+      if (previous) {
+        await minimizeComment(octokit, previous.id, hideClassify)
+      }
       return
     }
 
-    if (hideOldComment) {
-      await minimizeComment(octokit, previous.id, hideClassify)
+    if (!previous) {
+      await createComment(octokit, repo, pullRequestNumber, body, header)
       return
     }
 
