@@ -1,5 +1,13 @@
 # Sticky Pull Request Comment
 
+---
+
+### *Reason behind Diverst fork*
+This was forked because the fix for it creating a comment when trying to delete it when it didn't exist wasn't included in a release yet at the time of writing this. This also fixes the same issue but for hiding comments. Otherwise this is unchanged from the [original repo's state of main as of June 21st, 2022](https://github.com/marocchino/sticky-pull-request-comment/tree/44ff4b00ca3727f18157a7271244078ff85ff610).
+
+---
+&nbsp;
+
 Create a comment on a pull request, if it exists update that comment.
 This library runs with GitHub Actions. If you feel that the example grammar below is not friendly enough, we recommend reading [this page](https://docs.github.com/en/actions) first.
 
